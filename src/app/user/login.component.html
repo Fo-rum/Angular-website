@@ -1,0 +1,45 @@
+<h1>Login</h1>
+<hr>
+<div class="col-md-4">
+  <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)" autocomplete="off" novalidate>
+    <div class="form-group" >
+      <label for="userName">User Name:</label>
+      <em *ngIf="loginForm.controls.userName?.invalid && (loginForm.controls.userName?.touched || mouseoverLogin)" >Required</em>
+      <input (ngModel)="username" name="userName" required id="userName" type="text" class="form-control" placeholder="User Name..." />
+    </div>
+    <div class="form-group" >
+      <label for="password">Password:</label>
+      <em *ngIf="loginForm.controls.password?.invalid && (loginForm.controls.password?.touched || mouseoverLogin)">Required</em>
+      <input (ngModel)="password" name="password" required id="password" type="password" class="form-control"placeholder="Password..." />
+    </div>
+    
+    <span (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false">
+    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">Login</button></span>
+    <button type="button" (click)="cancel()" class="btn btn-default">Cancel</button>
+  </form>
+  <br>
+  <div *ngIf="loginInvalid" class="alert alert-danger">Invalid Login Info</div>
+</div>
+
+<!-- No specific angular related stuff.
+Just basic HTML.
+two inputs viz userName and password -->
+
+<!-- when input is entered into the input box, an event is fired. 
+and it updates the username property of our component to be the value of this inputbox -->
+
+<!-- ngModel gives us some extra forms-related -->
+
+<!-- [(ngModel)] = "userName"
+    Parantheses are used to bind in the HTML to component direction and is typically used for responding to events.
+    whereas the Square brackets are used to bind in the component to HTML direction and is typically used for displaying data from the component on the page.-->
+
+<!-- the above is known as a banana in box-style binding. 
+It is used because often forms are used for editing existing data, which has to displayed on the page as you type and want to update data in the component too. -->
+
+<!-- Rightnow, data is binded to the form because we dont have properties in the component to match it.
+So, we have added a local variable to th form element #loginForm via which we can access the form.
+This login form variable will be then used in the submit handler. -->
+
+<!-- Here, when we submit the form, the login method on our component would be called and it would pass in the login form. 
+ngsubmit prevents data from submitting to the server.-->

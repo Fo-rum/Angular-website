@@ -1,0 +1,109 @@
+<div class="container">
+    <img [src]="event?.imageUrl" [alt]="event?.name" class="event-image">
+  
+    <div class="row">
+      <div class="col-md-11">
+        <h2>{{event?.name | uppercase}} </h2>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-6">
+        <div><strong>Date:</strong> {{event?.date | date: 'shortDate'}}</div>
+        <div><strong>Time:</strong> {{event?.time}}</div>
+        <div><strong>Price:</strong> {{event?.price | currency:'USD'}}</div>
+      </div> 
+      <div class="col-md-6">
+        <address>
+          <strong>Address:</strong><br />
+          {{event?.location?.address}}<br/>
+          {{event?.location?.city}}, {{event?.location?.country}}
+        </address>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- here link calls the add session method. -->
+    <div class = "row" style="margin-bottom:10px">
+        <div class = "col-md-2">
+            <h3 style= "margin:0">Sessions</h3>
+        </div>
+
+        <div class="col-md-7">
+            <div class="btn-group btn-group-sm" style="margin-right:20px; margin-left: 20px">
+                <button class="btn btn-default" [class.active]="sortBy==='name'" (click)="sortBy='name'">By Name</button>
+                <button class="btn btn-default" [class.active]="sortBy==='votes'" (click)="sortBy='votes'">By Votes</button>
+            </div>
+
+            <div class="btn-group btn-group-sm">
+                <button class="btn btn-default" [class.active]="filterBy==='all'" (click)="filterBy='all'">All</button>
+                <button class="btn btn-default" [class.active]="filterBy==='beginner'" (click)="filterBy='beginner'">Beginner</button>
+                <button class="btn btn-default" [class.active]="filterBy==='intermediate'" (click)="filterBy='intermediate'">Intermediate</button>
+                <button class="btn btn-default" [class.active]="filterBy==='advanced'" (click)="filterBy='advanced'">Advanced</button>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <a (click)="addSession()">Add Session</a>
+        </div>
+    </div>
+
+    <!-- demonstration of passing data from one component into a subcomponent
+    PASSING DATA FROM A PARENT COMPONENT TO A CHILD COMPONENT -->
+    <session-list [eventId]="event?.id" [sortBy]="sortBy" [filterBy]="filterBy" *ngIf="!addMode" [sessions]="event?.sessions"></session-list>
+
+    <create-session *ngIf="addMode" (saveNewSession)="saveNewSession($event)" (cancelAddSession)="cancelAddSession()"></create-session>
+  </div>
+
+<!-- basic html with some bindings to event property on the component. -->
+<!-- The HTML file here uses binding, but none is present in the event-details.component.ts file. So then via the constructor
+the service is being injected that will be used to fetch the events. -->
+
+<!-- session-list [sessions]="event?.sessions
+will bind the session property of this Session list component to the sessions array on this event object and that event object is in the EventDetials component. -->
+
+<!-- 
+*ngIf="!addMode"
+will display the sessions list only if we are not in the addMode -->
+
+<!-- PASSING DATA OUT OF A CHILD COMPONENT BACK TO THE PARENT COMPONENT
+    PT-1
+    When we click on Add session, it takes us to create-sessions page.
+This is where the output parameters come in.
+The sessions need to be added to the current event that we are looking at the event details page.
+So, clicking on Save button then the session needs to be added to this event.
+and then the event needs to be saved with its new sessions. 
+hence the session data must be passed to the event details product and let it handle all of that.
+
+(saveNewSession)="saveNewSession($event)
+when this is fired, we call the saveNewSession method and pass it in the event that is emitted.
+so the event thats being passed along is actually the session object.
+
+PT-2
+When the create session component tells to cancel, the event details component must be out of the addMode 
+(cancelAddSession)="cancelAddSession()"
+Binding to that output property on the create-session.component, hence when it is emitted we will call the cancelAddSession on the component
+-->
+
+<!-- event?.date | date: 'shortDate'
+| date is the builtin pipe
+if we want to do formatting then we can add a colon and simply pass the required parameter
+event?.date | date: 'y/M/d' -- this is wanting the date in the Year/month/date format
+-->
+
+<!-- CREATING A FILTER display
+so here we will be filtering the sessions based on their levels
+<button class="btn-btn-default" [class.active]="filterBy==='all'" (click)="filterBy='all'">All</button>
+there are two bindings (class.active) & click.
+so the class.active property is used to check which class is currently active. and when we click on the button, it will set to that accordingly.
+eg: if the class.active is beginner and we click on its button then it will set to it. 
+
+passed this with the sessionlist. [filterBy]="filterBy"
+created a property and we passed our property so that filtering action takes place in the session-list component itself.
+
+
+
+-->
+
+

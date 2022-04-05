@@ -1,0 +1,45 @@
+<!-- <div class="row" *ngFor="let session of sessions"> -->
+
+<div class="row" *ngFor="let session of visibleSessions">
+    <div class="col-md-1">
+        <div *ngIf="auth.isAuthenticated()">
+            <upvote (vote)="toggleVote(session)" [count]="session.voters.length" [voted]="userHasVoted(session)"></upvote>
+        </div>
+    </div>
+    <div class="col-md-10">
+      <!-- <div class="well"> -->
+        <collapsible-well>
+          <!-- <h4>{{session.name}}</h4> -->
+          <div well-title>   
+            {{session.name}}
+            <i *ngIf="session.voters.length > 3" class="glyphicon glyphicon-fire" style="color:red"></i>
+
+          </div>
+          
+          <div well-body>
+            <h6>{{session.presenter}}</h6>
+            <span>Duration: {{session.duration | duration}}</span><br />
+            <span>Level: {{session.level}}</span>
+            <p>{{session.abstract}}</p>
+          </div>
+      <!-- </div> -->
+    </collapsible-well>
+    </div>
+  </div>
+
+
+<!-- here, the ngFor is present which is going to loop over each of the sessions in the array that was passed into the input property and will display each one. -->
+
+<!-- CONTENT PROJECTION
+collapsible-well -- creation of a new component. -->
+
+<!-- changed the div class="title" to div well-title to prevents conflicts if there exists a class of the same name in CSS 
+so we gave it an attribute. it doesnt give us a potential conflict with CSS classes.-->
+
+<!-- 
+Upvote component has three things:
+1) to toggle between vote & unvote
+2) count to keep a track of length of the voters
+3) whether the user has voted or not -->
+
+<!-- here upvote and collapsible-well are the custom components that we created ourselves. -->
