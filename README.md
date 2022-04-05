@@ -29,5 +29,6 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 ## Working
-cd folder and then run npm run start . This will compile the angular file and start on port 4200
-In a new window, run the command npm run server. This will start the server which will listen on port 8808
+1) cd folder and then run npm run start . This will compile the angular file and start on port 4200.
+2) In a new window, run the command npm run server. This will start the server which will listen on port 8808
+ 
